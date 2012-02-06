@@ -11,7 +11,7 @@ setup(
     install_requires=[
         'nose',
         'unittest2',
-        'mock>=0.8',
+        'mock',
     ],
     test_suite='nose.collector',
     zip_safe=False,
