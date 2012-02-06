@@ -13,28 +13,29 @@ def make_manager():
 class ManagerMockTestCase(TestCase):
     def test_iter(self):
         manager = make_manager()
-        mock = ManagerMock(manager, 'foo')
-        self.assertEquals(list(mock.all()), ['foo'])
+        inst = ManagerMock(manager, 'foo')
+        self.assertEquals(list(inst.all()), ['foo'])
 
     def test_getitem(self):
         manager = make_manager()
-        mock = ManagerMock(manager, 'foo')
-        self.assertEquals(mock.all()[0], 'foo')
+        inst = ManagerMock(manager, 'foo')
+        self.assertEquals(inst.all()[0], 'foo')
 
     def test_returns_self(self):
         manager = make_manager()
-        mock = ManagerMock(manager, 'foo')
+        inst = ManagerMock(manager, 'foo')
 
-        self.assertEquals(mock.all(), mock)
+        self.assertEquals(inst.all(), inst)
 
     def test_call_tracking(self):
         # only works in >= mock 0.8
         manager = make_manager()
-        mock = ManagerMock(manager, 'foo')
+        inst = ManagerMock(manager, 'foo')
 
-        mock = mock.filter(foo='bar').select_related('baz')
-        calls = mock.mock_calls
+        inst.filter(foo='bar').select_related('baz')
 
-        self.assertEquals(len(calls), 2)
-        self.assertEquals(calls[0], mock.call.filter(foo='bar'))
-        self.assertEquals(calls[1], mock.call.select_related('baz'))
+        calls = inst.mock_calls
+
+        self.assertGreater(len(calls), 1)
+        inst.assert_chain_calls(mock.call.filter(foo='bar'))
+        inst.assert_chain_calls(mock.call.select_related('baz'))
