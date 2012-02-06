@@ -38,7 +38,7 @@ class _ManagerMock(mock.MagicMock):
         >>> obj.assert_chain_calls(call.filter(foo='bar'))
         >>> obj.assert_chain_calls(call.select_related('baz'))
         """
-        all_calls = list(self.__parent.mock_calls)
+        all_calls = self.__parent.mock_calls[:]
 
         not_found = []
         for kall in calls:
@@ -47,14 +47,18 @@ class _ManagerMock(mock.MagicMock):
             except ValueError:
                 not_found.append(kall)
         if not_found:
-            raise AssertionError(
-                '%r not all found in call list' % (tuple(not_found),)
-            )
+            if self.__parent.mock_calls:
+                message = '%r not all found in call list, %d other(s) were:\n%r' % (not_found, len(self.__parent.mock_calls),
+                    self.__parent.mock_calls)
+            else:
+                message = 'no calls were found'
+
+            raise AssertionError(message)
 
 
 def ManagerMock(manager, *return_value):
     """
-    >>> objects = ManagerMock(Post.objects, ['queryset', 'result'])
+    >>> objects = ManagerMock(Post.objects, 'queryset', 'result')
     >>> assert objects.filter() == objects.all()
     """
 
