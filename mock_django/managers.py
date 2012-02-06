@@ -11,18 +11,27 @@ import mock
 __all__ = ('ManagerMock',)
 
 
-def ManagerMock(manager, return_value=[]):
+class _ManagerMock(mock.MagicMock):
+    def _get_child_mock(self, **kwargs):
+        name = kwargs.get('name', '')
+        if name[:2] == name[-2:] == '__':
+            return super(_ManagerMock, self)._get_child_mock(**kwargs)
+        return self
+
+    def __getattr__(self, name):
+        result = super(_ManagerMock, self).__getattr__(name)
+        if result is self:
+            result._mock_name = result._mock_new_name = name
+        return result
+
+
+def ManagerMock(manager, *return_value):
     """
     >>> objects = ManagerMock(Post.objects, ['queryset', 'result'])
     >>> assert objects.filter() == objects.all()
     """
-    class ManagerMock(mock.MagicMock):
-        def _get_child_mock(self, **kwargs):
-            name = kwargs.get('name', '')
-            if name[:2] == name[-2:] == '__':
-                return super(ManagerMock, self)._get_child_mock(**kwargs)
-            return self
-    m = ManagerMock()
-    m.__iter__.return_value = iter(return_value)
+
+    m = _ManagerMock()
+    m.__iter__.side_effect = lambda *a, **k: iter(return_value)
     m.__getitem__ = lambda s, n: list(s)[n]
     return m

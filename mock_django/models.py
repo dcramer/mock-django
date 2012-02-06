@@ -11,15 +11,18 @@ import mock
 __all__ = ('ModelMock',)
 
 
+# TODO: make foreignkey_id == foreignkey.id
+class _ModelMock(mock.MagicMock):
+    def _get_child_mock(self, **kwargs):
+        name = kwargs.get('name', '')
+        if name == 'pk':
+            return self.id
+        return super(_ModelMock, self)._get_child_mock(**kwargs)
+
+
 def ModelMock(model):
     """
     >>> Post = ModelMock(Post)
     >>> assert post.pk == post.id
     """
-    class ModelMock(mock.MagicMock):
-        def _get_child_mock(self, **kwargs):
-            name = kwargs.get('name', '')
-            if name == 'pk':
-                return self.id
-            return super(ModelMock, self)._get_child_mock(**kwargs)
-    return ModelMock(spec=model())
+    return _ModelMock(spec=model())
