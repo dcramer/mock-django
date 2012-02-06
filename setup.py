@@ -4,6 +4,7 @@ setup(
     name='mock-django',
     version='0.1.0',
     description='',
+    license='Apache License 2.0',
     author='David Cramer',
     author_email='dcramer@gmail.com',
     url='http://github.com/dcramer/mock-django',
