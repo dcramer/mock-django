@@ -27,6 +27,26 @@ class ManagerMockTestCase(TestCase):
 
         self.assertEquals(inst.all(), inst)
 
+    def test_get_on_singular_list(self):
+        manager = make_manager()
+        inst = ManagerMock(manager, 'foo')
+
+        self.assertEquals(inst.get(), 'foo')
+
+    def test_get_on_multiple_objects(self):
+        manager = make_manager()
+        inst = ManagerMock(manager, 'foo', 'bar')
+        inst.model.MultipleObjectsReturned = Exception
+
+        self.assertRaises(inst.model.MultipleObjectsReturned, inst.get)
+
+    def test_get_raises_doesnotexist(self):
+        manager = make_manager()
+        inst = ManagerMock(manager)
+        inst.model.DoesNotExist = Exception
+
+        self.assertRaises(inst.model.DoesNotExist, inst.get)
+
     def test_call_tracking(self):
         # only works in >= mock 0.8
         manager = make_manager()

@@ -62,7 +62,26 @@ def ManagerMock(manager, *return_value):
     >>> assert objects.filter() == objects.all()
     """
 
+    def make_get(self):
+        def _get(*a, **k):
+            results = list(self)
+            if len(results) > 1:
+                raise self.model.MultipleObjectsReturned
+            try:
+                return results[0]
+            except IndexError:
+                raise self.model.DoesNotExist
+        return _get
+
+    model = getattr(manager, 'model', None)
+    if model:
+        model = mock.MagicMock(spec=manager.model())
+    else:
+        model = mock.MagicMock()
+
     m = _ManagerMock()
+    m.model = model
+    m.get = make_get(m)
     m.__iter__.side_effect = lambda *a, **k: iter(return_value)
     m.__getitem__ = lambda s, n: list(s)[n]
     return m
