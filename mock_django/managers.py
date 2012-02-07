@@ -58,8 +58,14 @@ class _ManagerMock(mock.MagicMock):
 
 def ManagerMock(manager, *return_value):
     """
+    Set the results to two items:
+
     >>> objects = ManagerMock(Post.objects, 'queryset', 'result')
     >>> assert objects.filter() == objects.all()
+
+    Force an exception:
+
+    >>> objects = ManagerMock(Post.objects, Exception())
     """
 
     def make_get(self):
@@ -82,6 +88,9 @@ def ManagerMock(manager, *return_value):
     m = _ManagerMock()
     m.model = model
     m.get = make_get(m)
-    m.__iter__.side_effect = lambda *a, **k: iter(return_value)
+    if len(return_value) == 1 and isinstance(return_value[0], Exception):
+        m.__iter__.side_effect = return_value[0]
+    else:
+        m.__iter__.side_effect = lambda *a, **k: iter(return_value)
     m.__getitem__ = lambda s, n: list(s)[n]
     return m

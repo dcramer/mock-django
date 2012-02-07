@@ -16,6 +16,11 @@ class ManagerMockTestCase(TestCase):
         inst = ManagerMock(manager, 'foo')
         self.assertEquals(list(inst.all()), ['foo'])
 
+    def test_iter_exception(self):
+        manager = make_manager()
+        inst = ManagerMock(manager, Exception())
+        self.assertRaises(Exception, list, inst.all())
+
     def test_getitem(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
