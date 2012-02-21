@@ -3,10 +3,19 @@ from mock_django.managers import ManagerMock
 from unittest2 import TestCase
 
 
+class Model(object):
+    class DoesNotExist(Exception):
+        pass
+
+    class MultipleObjectsReturned(Exception):
+        pass
+
+
 def make_manager():
     manager = mock.MagicMock(spec=(
         'all', 'filter', 'order_by',
     ))
+    manager.model = Model
     return manager
 
 
@@ -69,3 +78,9 @@ class ManagerMockTestCase(TestCase):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
         self.assertEquals(inst[0:1].get(), 'foo')
+
+    def test_get_raises_doesnotexist_with_queryset(self):
+        manager = make_manager()
+        inst = ManagerMock(manager)
+        queryset = inst.using('default.slave')[0:1]
+        self.assertRaises(manager.model.DoesNotExist, queryset.get)
