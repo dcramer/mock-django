@@ -1,21 +1,19 @@
 """
-mock_django.managers
-~~~~~~~~~~~~~~~~~~~~
+mock_django.query
+~~~~~~~~~~~~~~~~~
 
 :copyright: (c) 2012 DISQUS.
 :license: Apache License 2.0, see LICENSE for more details.
 """
 
 import mock
-from .query import QuerySetMock
+
+__all__ = ('QuerySetMock',)
 
 
-__all__ = ('ManagerMock',)
-
-
-class _ManagerMock(mock.MagicMock):
+class _QuerySetMock(mock.MagicMock):
     def __init__(self, *args, **kwargs):
-        super(_ManagerMock, self).__init__(*args, **kwargs)
+        super(_QuerySetMock, self).__init__(*args, **kwargs)
         parent = mock.MagicMock()
         parent.child = self
         self.__parent = parent
@@ -23,11 +21,11 @@ class _ManagerMock(mock.MagicMock):
     def _get_child_mock(self, **kwargs):
         name = kwargs.get('name', '')
         if name[:2] == name[-2:] == '__':
-            return super(_ManagerMock, self)._get_child_mock(**kwargs)
+            return super(_QuerySetMock, self)._get_child_mock(**kwargs)
         return self
 
     def __getattr__(self, name):
-        result = super(_ManagerMock, self).__getattr__(name)
+        result = super(_QuerySetMock, self).__getattr__(name)
         if result is self:
             result._mock_name = result._mock_new_name = name
         return result
@@ -58,33 +56,62 @@ class _ManagerMock(mock.MagicMock):
             raise AssertionError(message)
 
 
-def ManagerMock(manager, *return_value):
+def QuerySetMock(model, *return_value):
     """
     Set the results to two items:
 
-    >>> objects = ManagerMock(Post.objects, 'queryset', 'result')
+    >>> objects = QuerySetMock(Post, 'return', 'values')
     >>> assert objects.filter() == objects.all()
 
     Force an exception:
 
-    >>> objects = ManagerMock(Post.objects, Exception())
+    >>> objects = QuerySetMock(Post, Exception())
     """
 
-    def make_get_query_set(self, actual_model):
+    def make_get(self):
         def _get(*a, **k):
-            return QuerySetMock(actual_model, *return_value)
+            results = list(self)
+            if len(results) > 1:
+                raise self.model.MultipleObjectsReturned
+            try:
+                return results[0]
+            except IndexError:
+                raise self.model.DoesNotExist
         return _get
 
-    actual_model = getattr(manager, 'model', None)
+    def make_getitem(self):
+        def _getitem(k):
+            if isinstance(k, slice):
+                self.__start = k.start
+                self.__stop = k.stop
+            else:
+                return list(self)[k]
+            return self
+        return _getitem
+
+    def make_iterator(self):
+        def _iterator(*a, **k):
+            if len(return_value) == 1 and isinstance(return_value[0], Exception):
+                raise return_value[0]
+
+            start = getattr(self, '__start', None)
+            stop = getattr(self, '__stop', None)
+            for x in return_value[start:stop]:
+                yield x
+        return _iterator
+
+    actual_model = model
     if actual_model:
         model = mock.MagicMock(spec=actual_model())
     else:
         model = mock.MagicMock()
 
-    m = _ManagerMock()
+    m = _QuerySetMock()
+    m.__start = None
+    m.__stop = None
+    m.__iter__.side_effect = lambda: iter(m.iterator())
+    m.__getitem__.side_effect = make_getitem(m)
     m.model = model
-    m.get_query_set = make_get_query_set(m, actual_model)
-    m.get = m.get_query_set().get
-    m.__iter__ = m.get_query_set().__iter__
-    m.__getitem__ = m.get_query_set().__getitem__
+    m.get = make_get(m)
+    m.iterator.side_effect = make_iterator(m)
     return m

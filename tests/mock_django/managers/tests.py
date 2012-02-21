@@ -64,3 +64,8 @@ class ManagerMockTestCase(TestCase):
         self.assertGreater(len(calls), 1)
         inst.assert_chain_calls(mock.call.filter(foo='bar'))
         inst.assert_chain_calls(mock.call.select_related('baz'))
+
+    def test_getitem_get(self):
+        manager = make_manager()
+        inst = ManagerMock(manager, 'foo')
+        self.assertEquals(inst[0:1].get(), 'foo')
