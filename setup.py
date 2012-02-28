@@ -14,9 +14,6 @@ setup(
         'unittest2',
         'mock',
     ],
-    tests_require=[
-        'mock==dev',
-    ],
     test_suite='nose.collector',
     zip_safe=False,
     include_package_data=True,
