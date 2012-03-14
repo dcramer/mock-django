@@ -17,7 +17,7 @@ __all__ = ('MockHttpRequest',)
 
 class WsgiHttpRequest(HttpRequest):
     def __init__(self, *args, **kwargs):
-        super(MockHttpRequest, self).__init__(*args, **kwargs)
+        super(WsgiHttpRequest, self).__init__(*args, **kwargs)
         self.user = AnonymousUser()
         self.session = {}
         self.url = '/'
