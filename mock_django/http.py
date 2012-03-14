@@ -10,7 +10,7 @@ from mock import Mock
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.utils.datastructures import MergeDict
-from urllib2 import urlencode
+from urllib import urlencode
 
 __all__ = ('MockHttpRequest',)
 

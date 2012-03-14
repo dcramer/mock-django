@@ -6,5 +6,6 @@ mock_django
 :license: Apache License 2.0, see LICENSE for more details.
 """
 
+from .http import *
 from .managers import *
 from .models import *
