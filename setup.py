@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mock-django',
-    version='0.4.0',
+    version='0.5.0',
     description='',
     license='Apache License 2.0',
     author='David Cramer',
