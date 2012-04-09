@@ -21,6 +21,9 @@ class WsgiHttpRequest(HttpRequest):
         self.user = AnonymousUser()
         self.session = {}
         self.url = '/'
+        self.META = {}
+        self.GET = {}
+        self.POST = {}
 
     def _get_request(self):
         if not hasattr(self, '_request'):
@@ -55,7 +58,7 @@ def MockHttpRequest(url='/', method='GET', GET=None, POST=None, META=None):
             'HTTP_REFERER': '',
         }
 
-    request = Mock(spec=WsgiHttpRequest())
+    request = WsgiHttpRequest()
     request.url = url
     request.method = method
     request.META = META
