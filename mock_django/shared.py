@@ -44,4 +44,3 @@ class SharedMock(mock.MagicMock):
                 message = 'no calls were found'
 
             raise AssertionError(message)
-
