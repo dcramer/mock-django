@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from django.conf import settings
-from nose.core import collector, run
+from nose.core import run
 
 
 # Trick Django into thinking that we've configured a project, so importing

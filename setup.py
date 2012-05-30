@@ -19,6 +19,7 @@ setup(
     url='http://github.com/dcramer/mock-django',
     packages=find_packages(),
     install_requires=[
+        'Django>=1.2,<1.5',
         'nose',
         'unittest2',
         'mock',
