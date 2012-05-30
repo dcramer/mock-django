@@ -9,3 +9,4 @@ mock_django
 from .http import *
 from .managers import *
 from .models import *
+from .signals import *
