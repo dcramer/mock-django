@@ -16,8 +16,3 @@ script:
   - "sudo pep8 --ignore=E501,E225 mock_django"
   - sudo pyflakes -x W mock_django
   - sudo python setup.py test
-notifications:
-  irc:
-    channels: "irc.freenode.org#sentry"
-    on_success: change
-    on_failure: change
