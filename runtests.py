@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from django.conf import settings
-from nose.core import run
+# collector import is required otherwise setuptools errors
+from nose.core import run, collector
 
 
 # Trick Django into thinking that we've configured a project, so importing
