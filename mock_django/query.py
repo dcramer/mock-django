@@ -22,6 +22,13 @@ def QuerySetMock(model, *return_value):
     Force an exception:
 
     >>> objects = QuerySetMock(Post, Exception())
+
+    Note that only methods returning querysets are currently
+    explicitly supported; since we use SharedMock, others all behave
+    as if they did, so use with caution:
+
+    >>> objects.count() == objects.all()
+    True
     """
 
     def make_get(self, model):
@@ -69,5 +76,9 @@ def QuerySetMock(model, *return_value):
     m.__getitem__.side_effect = make_getitem(m)
     m.model = model
     m.get = make_get(m, actual_model)
+
+    # Note since this is a SharedMock, *all* auto-generated child
+    # attributes will have the same side_effect ... might not make
+    # sense for some like count().
     m.iterator.side_effect = make_iterator(m)
     return m
