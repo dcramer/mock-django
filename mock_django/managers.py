@@ -24,6 +24,8 @@ def ManagerMock(manager, *return_value):
     Force an exception:
 
     >>> objects = ManagerMock(Post.objects, Exception())
+
+    See QuerySetMock for more about how this works.
     """
 
     def make_get_query_set(self, model):

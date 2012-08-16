@@ -38,7 +38,6 @@ class ManagerMockTestCase(TestCase):
     def test_returns_self(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
-
         self.assertEquals(inst.all(), inst)
 
     def test_get_on_singular_list(self):
