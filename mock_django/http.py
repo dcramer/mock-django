@@ -56,6 +56,7 @@ def MockHttpRequest(url='/', method='GET', GET=None, POST=None, META=None):
         META = {
             'REMOTE_ADDR': '127.0.0.1',
             'HTTP_REFERER': '',
+            'SERVER_NAME': 'testserver',
         }
 
     request = WsgiHttpRequest()
