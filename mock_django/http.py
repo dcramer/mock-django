@@ -31,7 +31,7 @@ class WsgiHttpRequest(HttpRequest):
         return self._request
     REQUEST = property(_get_request)
 
-    def build_absolute_uri(self):
+    def build_absolute_uri(self, location=None):
         return self.url
 
     def _get_raw_post_data(self):
