@@ -6,7 +6,6 @@ mock_django.http
 :license: Apache License 2.0, see LICENSE for more details.
 """
 
-from mock import Mock
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.utils.datastructures import MergeDict
@@ -20,7 +19,6 @@ class WsgiHttpRequest(HttpRequest):
         super(WsgiHttpRequest, self).__init__(*args, **kwargs)
         self.user = AnonymousUser()
         self.session = {}
-        self.url = '/'
         self.META = {}
         self.GET = {}
         self.POST = {}
@@ -30,9 +28,6 @@ class WsgiHttpRequest(HttpRequest):
             self._request = MergeDict(self.POST, self.GET)
         return self._request
     REQUEST = property(_get_request)
-
-    def build_absolute_uri(self, location=None):
-        return self.url
 
     def _get_raw_post_data(self):
         if not hasattr(self, '_raw_post_data'):
@@ -45,7 +40,7 @@ class WsgiHttpRequest(HttpRequest):
     raw_post_data = property(_get_raw_post_data, _set_raw_post_data)
 
 
-def MockHttpRequest(url='/', method='GET', GET=None, POST=None, META=None):
+def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None):
     if GET is None:
         GET = {}
     if POST is None:
@@ -55,12 +50,13 @@ def MockHttpRequest(url='/', method='GET', GET=None, POST=None, META=None):
     if META is None:
         META = {
             'REMOTE_ADDR': '127.0.0.1',
+            'SERVER_PORT': '8000',
             'HTTP_REFERER': '',
             'SERVER_NAME': 'testserver',
         }
 
     request = WsgiHttpRequest()
-    request.url = url
+    request.path = request.path_info = path
     request.method = method
     request.META = META
     request.GET = GET
