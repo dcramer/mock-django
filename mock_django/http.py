@@ -42,7 +42,7 @@ class WsgiHttpRequest(HttpRequest):
     def _set_raw_post_data(self, data):
         self._raw_post_data = data
         self.POST = {}
-    raw_post_data = property(_set_raw_post_data)
+    raw_post_data = property(_get_raw_post_data, _set_raw_post_data)
 
 
 def MockHttpRequest(url='/', method='GET', GET=None, POST=None, META=None):
