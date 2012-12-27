@@ -76,6 +76,7 @@ def QuerySetMock(model, *return_value):
     m.__getitem__.side_effect = make_getitem(m)
     m.model = model
     m.get = make_get(m, actual_model)
+    m.exists.return_value = bool(return_value)
 
     # Note since this is a SharedMock, *all* auto-generated child
     # attributes will have the same side_effect ... might not make
