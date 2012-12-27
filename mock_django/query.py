@@ -69,14 +69,17 @@ def QuerySetMock(model, *return_value):
     else:
         model = mock.MagicMock()
 
-    m = SharedMock()
+    m = SharedMock(reserved=['count', 'exists'])
     m.__start = None
     m.__stop = None
     m.__iter__.side_effect = lambda: iter(m.iterator())
     m.__getitem__.side_effect = make_getitem(m)
     m.model = model
     m.get = make_get(m, actual_model)
-    m.exists.return_value = bool(return_value)
+    m.__nonzero__.side_effect = lambda: bool(return_value)
+    m.__len__.side_effect = lambda: len(return_value)
+    m.exists.side_effect = m.__nonzero__
+    m.count.side_effect = m.__len__
 
     # Note since this is a SharedMock, *all* auto-generated child
     # attributes will have the same side_effect ... might not make

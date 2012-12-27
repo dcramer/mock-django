@@ -25,14 +25,19 @@ class SharedMock(mock.MagicMock):
     """
 
     def __init__(self, *args, **kwargs):
+        reserved = kwargs.pop('reserved', [])
+
+        # XXX: we cannot bind to self until after the mock is initialized
         super(SharedMock, self).__init__(*args, **kwargs)
+
         parent = mock.MagicMock()
         parent.child = self
         self.__parent = parent
+        self.__reserved = reserved
 
     def _get_child_mock(self, **kwargs):
         name = kwargs.get('name', '')
-        if name[:2] == name[-2:] == '__':
+        if (name[:2] == name[-2:] == '__') or name in self.__reserved:
             return super(SharedMock, self)._get_child_mock(**kwargs)
         return self
 
