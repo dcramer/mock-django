@@ -71,7 +71,7 @@ class SharedMock(mock.MagicMock):
         if not_found:
             if self.__parent.mock_calls:
                 message = '%r not all found in call list, %d other(s) were:\n%r' % (not_found, len(self.__parent.mock_calls),
-                    self.__parent.mock_calls)
+                                                                                    self.__parent.mock_calls)
             else:
                 message = 'no calls were found'
 
