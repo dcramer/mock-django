@@ -71,8 +71,9 @@ class MockHttpRequestTest(TestCase):
         self.assertTrue(isinstance(result.user, AnonymousUser))
 
     def test_call(self):
-        mock_user = Mock()
+        class MockUser:
+            pass
 
-        result = MockHttpRequest(user=mock_user)
+        result = MockHttpRequest(user=MockUser())
 
-        self.assertTrue(isinstance(result.user, Mock))
+        self.assertTrue(isinstance(result.user, MockUser))
