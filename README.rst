@@ -7,15 +7,19 @@ Using mock-django objects
 -------------------------
 Inside your virtualenv::
 
->>> from django.conf import settings # required to confince Django we've properly configured
->>> settings.configure()
->>> from mock_django.query import QuerySetMock
->>> class Post(object): pass
->>> qs = QuerySetMock(Post, 1, 2, 3)
->>> list(qs.all())
-[1, 2, 3]
->>> qs.count()
-3
+   >>> from django.conf import settings
+   >>> settings.configure() # required to convince Django it's properly configured
+   >>> from mock_django.query import QuerySetMock
+   >>> class Post(object): pass
+   >>> qs = QuerySetMock(Post, 1, 2, 3)
+   >>> list(qs.all())
+   [1, 2, 3]
+   >>> qs.count()
+   3
+   >>> qs.all().filter()
+   [1, 2, 3]
+
+See tests for more examples.
 
 
 Testing
