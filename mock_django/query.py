@@ -17,18 +17,11 @@ def QuerySetMock(model, *return_value):
     Set the results to two items:
 
     >>> objects = QuerySetMock(Post, 'return', 'values')
-    >>> assert objects.filter() == objects.all()
+    >>> assert list(objects.filter()) == list(objects.all())
 
     Force an exception:
 
     >>> objects = QuerySetMock(Post, Exception())
-
-    Note that only methods returning querysets are currently
-    explicitly supported; since we use SharedMock, others all behave
-    as if they did, so use with caution:
-
-    >>> objects.count() == objects.all()
-    True
     """
 
     def make_get(self, model):
