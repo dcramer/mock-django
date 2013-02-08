@@ -21,22 +21,22 @@ class QuerySetTestCase(TestCase):
         Each QuerySet-returning method's return value is unique.
         """
         qs = QuerySetMock(None, 1, 2, 3)
-        self.assertNotEqual(qs.all(), qs.filter())
-        self.assertNotEqual(qs.filter(), qs.order_by())
+        self.assertNotEquals(qs.all(), qs.filter())
+        self.assertNotEquals(qs.filter(), qs.order_by())
 
     def test_qs_yield_equality(self):
         """
-        The generators may not the same, but they do produce the same output.
+        The generators may not be the same, but they do produce the same output.
         """
         qs = QuerySetMock(None, 1, 2, 3)
-        self.assertEqual(list(qs.all()), list(qs.filter()))
+        self.assertEquals(list(qs.all()), list(qs.filter()))
 
     def test_qs_method_takes_arg(self):
         """
         QS-returning methods are impotent, but they do take args.
         """
         qs = QuerySetMock(None, 1, 2, 3)
-        self.assertEqual(list(qs.order_by('something')), [1, 2, 3])
+        self.assertEquals(list(qs.order_by('something')), [1, 2, 3])
 
     def test_raises_exception_when_evaluated(self):
         """
@@ -55,7 +55,7 @@ class QuerySetTestCase(TestCase):
     # Test reserved methods
     def test_count_is_scalar(self):
         qs = QuerySetMock(None, 1, 2, 3)
-        self.assertEqual(qs.count(), 3)
+        self.assertEquals(qs.count(), 3)
 
     def test_exists_is_boolean(self):
         qs = QuerySetMock(None)
