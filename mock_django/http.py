@@ -40,7 +40,7 @@ class WsgiHttpRequest(HttpRequest):
     raw_post_data = property(_get_raw_post_data, _set_raw_post_data)
 
 
-def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None):
+def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None, user=None):
     if GET is None:
         GET = {}
     if POST is None:
@@ -54,6 +54,8 @@ def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None):
             'HTTP_REFERER': '',
             'SERVER_NAME': 'testserver',
         }
+    if user is not None:
+        user = user
 
     request = WsgiHttpRequest()
     request.path = request.path_info = path
@@ -61,4 +63,5 @@ def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None):
     request.META = META
     request.GET = GET
     request.POST = POST
+    request.user = user
     return request
