@@ -10,4 +10,4 @@ Testing
    :alt: Build Status
    :target: http://travis-ci.org/dcramer/mock-django
 
-``python setup.py test``
+``tox``

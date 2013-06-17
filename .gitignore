@@ -1,5 +1,7 @@
 *.pyc
 *.egg
 *.egg-info/
+*~
 /dist
 /build
+.tox
