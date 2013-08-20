@@ -1,8 +1,10 @@
 from mock_django.query import QuerySetMock
 from unittest2 import TestCase
 
+
 class TestException(Exception):
     pass
+
 
 class TestModel(object):
     def foo(self):
@@ -10,6 +12,7 @@ class TestModel(object):
 
     def bar(self):
         return 'bar'
+
 
 class QuerySetTestCase(TestCase):
     def test_vals_returned(self):
