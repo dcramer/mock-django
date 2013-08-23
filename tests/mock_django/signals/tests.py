@@ -11,6 +11,7 @@ class MockSignalTestCase(TestCase):
             self.assertEqual(receiver.call_count, 1)
 
         sentinel = {}
+
         def side_effect(*args, **kwargs):
             return sentinel
 

@@ -19,7 +19,7 @@ class WsgiHttpRequestTest(TestCase):
         self.assertEqual({}, wsgi_r.META)
         self.assertEqual({}, wsgi_r.GET)
         self.assertEqual({}, wsgi_r.POST)
-        
+
     def test__get_request(self):
         wsgi_r = WsgiHttpRequest()
         expected_items = MergeDict({}, {}).items()

@@ -1,8 +1,10 @@
 from mock_django.query import QuerySetMock
 from unittest2 import TestCase
 
+
 class TestException(Exception):
     pass
+
 
 class TestModel(object):
     def foo(self):
@@ -10,6 +12,7 @@ class TestModel(object):
 
     def bar(self):
         return 'bar'
+
 
 class QuerySetTestCase(TestCase):
     def test_vals_returned(self):
@@ -51,6 +54,23 @@ class QuerySetTestCase(TestCase):
         """
         qs = QuerySetMock(None, TestException())
         self.assertRaises(TestException, lambda x: x[0], qs)
+
+    def test_chaining_calls_works(self):
+        """
+        Chained calls to QS-returning methods should return new QuerySetMocks.
+        """
+        qs = QuerySetMock(None, 1, 2, 3)
+        qs.all().filter(filter_arg='dummy')
+        qs.filter(filter_arg='dummy').order_by('-date')
+
+    def test_chained_calls_return_new_querysetmocks(self):
+        qs = QuerySetMock(None, 1, 2, 3)
+        qs_all = qs.all()
+        qs_filter = qs.filter()
+        qs_all_filter = qs.filter().all()
+
+        self.assertIsNot(qs_all, qs_filter)
+        self.assertIsNot(qs_filter, qs_all_filter)
 
     # Test reserved methods
     def test_count_is_scalar(self):
