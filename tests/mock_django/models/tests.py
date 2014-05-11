@@ -1,6 +1,11 @@
 from mock import MagicMock
 from mock_django.models import ModelMock
-from unittest2 import TestCase
+try:
+    # Python 2
+    from unittest2 import TestCase
+except ImportError:
+    # Python 3
+    from unittest import TestCase
 
 
 class Model(object):

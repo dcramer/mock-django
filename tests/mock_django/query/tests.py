@@ -1,5 +1,10 @@
 from mock_django.query import QuerySetMock
-from unittest2 import TestCase
+try:
+    # Python 2
+    from unittest2 import TestCase
+except ImportError:
+    # Python 3
+    from unittest import TestCase
 
 
 class TestException(Exception):

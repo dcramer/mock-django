@@ -9,7 +9,12 @@ mock_django.http
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.utils.datastructures import MergeDict
-from urllib import urlencode
+try:
+    # Python 2
+    from urllib import urlencode
+except ImportError:
+    # Python 3
+    from urllib.parse import urlencode
 
 __all__ = ('MockHttpRequest',)
 

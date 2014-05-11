@@ -1,5 +1,16 @@
-from unittest2 import TestCase
-from urllib import urlencode
+try:
+    # Python 2
+    from unittest2 import TestCase
+except ImportError:
+    # Python 3
+    from unittest import TestCase
+
+try:
+    # Python 2
+    from urllib import urlencode
+except ImportError:
+    # Python 3
+    from urllib.parse import urlencode
 
 from django.contrib.auth.models import AnonymousUser
 from django.utils.datastructures import MergeDict

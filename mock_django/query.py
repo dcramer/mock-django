@@ -85,9 +85,15 @@ def QuerySetMock(model, *return_value):
     m.__stop = None
     m.__iter__.side_effect = lambda: iter(m.iterator())
     m.__getitem__.side_effect = make_getitem(m)
-    m.__nonzero__.side_effect = lambda: bool(return_value)
+    if hasattr(m, "__nonzero__"):
+        # Python 2
+        m.__nonzero__.side_effect = lambda: bool(return_value)
+        m.exists.side_effect = m.__nonzero__
+    else:
+        # Python 3
+        m.__bool__.side_effect = lambda: bool(return_value)
+        m.exists.side_effect = m.__bool__
     m.__len__.side_effect = lambda: len(return_value)
-    m.exists.side_effect = m.__nonzero__
     m.count.side_effect = m.__len__
 
     m.model = model
