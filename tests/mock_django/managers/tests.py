@@ -1,6 +1,11 @@
 import mock
 from mock_django.managers import ManagerMock
-from unittest2 import TestCase
+try:
+    # Python 2
+    from unittest2 import TestCase
+except ImportError:
+    # Python 3
+    from unittest import TestCase
 
 
 class Model(object):

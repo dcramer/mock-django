@@ -1,6 +1,11 @@
 from django.dispatch import Signal
 from mock_django.signals import mock_signal_receiver
-from unittest2 import TestCase
+try:
+    # Python 2
+    from unittest2 import TestCase
+except ImportError:
+    # Python 3
+    from unittest import TestCase
 
 
 class MockSignalTestCase(TestCase):
