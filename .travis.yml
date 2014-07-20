@@ -5,8 +5,8 @@ python:
   - "3.4"
   - "pypy"
 env:
-  - DJANGO=1.4.6
-  - DJANGO=1.5.2
+  - DJANGO=1.4.13
+  - DJANGO=1.5.8
   - DJANGO=1.6.5
 install:
   - sudo apt-get install libevent-dev
