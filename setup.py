@@ -11,7 +11,7 @@ except ImportError:
 
 setup(
     name='mock-django',
-    version='0.6.5',
+    version='0.6.6',
     description='',
     license='Apache License 2.0',
     author='David Cramer',
@@ -19,7 +19,7 @@ setup(
     url='http://github.com/dcramer/mock-django',
     packages=find_packages(),
     install_requires=[
-        'Django>=1.2',
+        'Django>=1.4',
         'mock',
     ],
     tests_require=[
