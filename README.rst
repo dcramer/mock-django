@@ -5,7 +5,9 @@ A simple library for mocking certain Django behavior, such as the ORM.
 
 Using mock-django objects
 -------------------------
-Inside your virtualenv::
+Inside your virtualenv:
+
+.. code:: python
 
    >>> from django.conf import settings
    >>> settings.configure() # required to convince Django it's properly configured
