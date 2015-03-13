@@ -11,7 +11,7 @@ except ImportError:
 
 setup(
     name='mock-django',
-    version='0.6.6',
+    version='0.6.7',
     description='',
     license='Apache License 2.0',
     author='David Cramer',
