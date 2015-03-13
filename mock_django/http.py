@@ -59,7 +59,7 @@ def MockHttpRequest(path='/', method='GET', GET=None, POST=None, META=None, user
             'HTTP_REFERER': '',
             'SERVER_NAME': 'testserver',
         }
-    if user is not None:
+    if user is None:
         user = user
 
     request = WsgiHttpRequest()
