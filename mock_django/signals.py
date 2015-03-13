@@ -27,7 +27,8 @@ def mock_signal_receiver(signal, wraps=None, **kwargs):
     >>>     assert receiver.call_count = 1
     """
     if wraps is None:
-        wraps = lambda *args, **kwargs: None
+        def wraps(*args, **kwrags):
+            return None
 
     receiver = mock.Mock(wraps=wraps)
     signal.connect(receiver, **kwargs)
