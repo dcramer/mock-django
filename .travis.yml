@@ -12,6 +12,7 @@ env:
   - DJANGO=1.5.8
   - DJANGO=1.6.5
   - DJANGO=1.7.0
+  - DJANGO=1.8.0
 install:
   - sudo apt-get install libevent-dev
   - sudo pip install Django==$DJANGO --use-mirrors
