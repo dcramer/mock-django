@@ -8,7 +8,6 @@ mock_django.http
 
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
-from django.utils.datastructures import MergeDict
 try:
     # Python 2
     from urllib import urlencode
@@ -29,6 +28,7 @@ class WsgiHttpRequest(HttpRequest):
         self.POST = {}
 
     def _get_request(self):
+        from django.utils.datastructures import MergeDict
         if not hasattr(self, '_request'):
             self._request = MergeDict(self.POST, self.GET)
         return self._request
