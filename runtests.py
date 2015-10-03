@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+import django
 from django.conf import settings
 # collector import is required otherwise setuptools errors
 from nose.core import run, collector
@@ -8,7 +10,18 @@ from nose.core import run, collector
 # anything that tries to access attributes of `django.conf.settings` will just
 # return the default values, instead of crashing out.
 if not settings.configured:
-    settings.configure()
+    settings.configure(
+        INSTALLED_APPS=[
+            "django.contrib.contenttypes",
+            "django.contrib.auth",
+        ],
+    )
+
+try:
+    django.setup()
+except AttributeError:
+    # Django 1.7 or lower
+    pass
 
 
 if __name__ == '__main__':
