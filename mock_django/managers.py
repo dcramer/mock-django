@@ -47,4 +47,6 @@ def ManagerMock(manager, *return_value):
     m.exists = m.get_query_set().exists
     m.__iter__ = m.get_query_set().__iter__
     m.__getitem__ = m.get_query_set().__getitem__
+    m.__class__ = m
+    
     return m
