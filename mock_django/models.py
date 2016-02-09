@@ -13,6 +13,13 @@ __all__ = ('ModelMock',)
 
 # TODO: make foreignkey_id == foreignkey.id
 class _ModelMock(mock.MagicMock):
+    def __init__(self, *args, **kwargs):
+        super(_ModelMock, self).__init__(*args, **kwargs)
+
+        # Django ORM needed state for write status
+        self._state = mock.Mock()
+        self._state.db = None
+
     def _get_child_mock(self, **kwargs):
         name = kwargs.get('name', '')
         if name == 'pk':
