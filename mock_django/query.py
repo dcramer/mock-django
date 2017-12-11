@@ -6,6 +6,7 @@ mock_django.query
 :license: Apache License 2.0, see LICENSE for more details.
 """
 import copy
+from functools import partial
 
 import mock
 from .shared import SharedMock
@@ -63,6 +64,15 @@ def QuerySetMock(model, *return_value):
             return self
         return _getitem
 
+    def make_get_specific_item(self, k):
+        def _get_specific_item(k):
+            results = list(self)
+            try:
+                return results[k]
+            except IndexError:
+                return None
+        return partial(_get_specific_item, k)
+
     def make_iterator(self):
         def _iterator(*a, **k):
             if len(return_value) == 1 and isinstance(return_value[0], Exception):
@@ -98,6 +108,8 @@ def QuerySetMock(model, *return_value):
 
     m.model = model
     m.get = make_get(m, actual_model)
+    m.last = make_get_specific_item(m, -1)
+    m.first = make_get_specific_item(m, 0)
 
     for method_name in QUERYSET_RETURNING_METHODS:
         setattr(m, method_name, make_qs_returning_method(m))
