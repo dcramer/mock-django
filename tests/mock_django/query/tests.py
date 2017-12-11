@@ -95,3 +95,19 @@ class QuerySetTestCase(TestCase):
         """
         qs = QuerySetMock(TestModel, 1, 2, 3)
         self.assertNotIsInstance(qs[0], TestModel)
+
+    def test_last(self):
+        qs = QuerySetMock(None, 1, 2, 3)
+        self.assertEquals(qs.last(), 3)
+
+    def test_last_empty_qs(self):
+        qs = QuerySetMock(None)
+        self.assertEquals(qs.last(), None)
+
+    def test_first(self):
+        qs = QuerySetMock(None, 1, 2, 3)
+        self.assertEquals(qs.first(), 1)
+
+    def test_first_empty_qs(self):
+        qs = QuerySetMock(None)
+        self.assertEquals(qs.last(), None)
