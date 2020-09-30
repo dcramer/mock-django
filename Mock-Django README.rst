@@ -3,7 +3,7 @@ mock-django
 
 A simple library for mocking certain Django behavior, such as the ORM.
 
-Using mock-django objects
+Using (mock-django) objects
 -------------------------
 Inside your virtualenv:
 
@@ -23,7 +23,6 @@ Inside your virtualenv:
    [1, 2, 3]
 
 See tests for more examples.
-
 
 Testing
 -------
