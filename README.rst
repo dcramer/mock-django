@@ -1,11 +1,11 @@
-mock-django
+Mock-Django
 ~~~~~~~~~~~
 
 A simple library for mocking certain Django behavior, such as the ORM.
 
 Using mock-django objects
 -------------------------
-Inside your virtualenv:
+Inside your virtual environment:
 
 .. code:: python
 
@@ -22,7 +22,7 @@ Inside your virtualenv:
    >>> list(qs.all().filter())
    [1, 2, 3]
 
-See tests for more examples.
+See tests for more examples:
 
 
 Testing
