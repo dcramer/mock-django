@@ -22,7 +22,7 @@ class Model(object):
 class ModelMockTestCase(TestCase):
     def test_pk_alias(self):
         mock = ModelMock(Model)
-        self.assertEquals(mock.id, mock.pk)
+        self.assertEqual(mock.id, mock.pk)
 
     def test_only_model_attrs_exist(self):
         """
@@ -36,7 +36,7 @@ class ModelMockTestCase(TestCase):
         ModelMock members are Mocks, not the actual model members.
         """
         mock = ModelMock(Model)
-        self.assertNotEquals(mock.bar(), 'bar')
+        self.assertNotEqual(mock.bar(), 'bar')
         self.assertIsInstance(mock, MagicMock)
 
     def test_attrs_are_not_identical(self):

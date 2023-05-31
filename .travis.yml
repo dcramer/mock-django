@@ -4,6 +4,8 @@ env:
 
   - TOX_ENV=flake8
 
+  - TOX_ENV=py38-django4.2
+
   - TOX_ENV=py34-django1.9
   - TOX_ENV=py34-django1.8
   - TOX_ENV=py34-django1.7

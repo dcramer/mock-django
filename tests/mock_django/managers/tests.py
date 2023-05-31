@@ -28,7 +28,7 @@ class ManagerMockTestCase(TestCase):
     def test_iter(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
-        self.assertEquals(list(inst.all()), ['foo'])
+        self.assertEqual(list(inst.all()), ['foo'])
 
     def test_iter_exception(self):
         manager = make_manager()
@@ -38,18 +38,18 @@ class ManagerMockTestCase(TestCase):
     def test_getitem(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
-        self.assertEquals(inst.all()[0], 'foo')
+        self.assertEqual(inst.all()[0], 'foo')
 
     def test_returns_self(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
-        self.assertEquals(inst.all(), inst)
+        self.assertEqual(inst.all(), inst)
 
     def test_get_on_singular_list(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
 
-        self.assertEquals(inst.get(), 'foo')
+        self.assertEqual(inst.get(), 'foo')
 
     def test_get_on_multiple_objects(self):
         manager = make_manager()
@@ -81,7 +81,7 @@ class ManagerMockTestCase(TestCase):
     def test_getitem_get(self):
         manager = make_manager()
         inst = ManagerMock(manager, 'foo')
-        self.assertEquals(inst[0:1].get(), 'foo')
+        self.assertEqual(inst[0:1].get(), 'foo')
 
     def test_get_raises_doesnotexist_with_queryset(self):
         manager = make_manager()
